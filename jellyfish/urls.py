@@ -19,9 +19,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 schema_view = get_schema_view(openapi.Info(
-    title = 'Notebooks shop',
-    default_version='best version',
-    description='Hello mt friend, it is swagger',
+    title = 'Jellyfish',
+    default_version='version 1.0',
+    description='Hello my friend, it is swagger',
 ),
     public=True
 )
