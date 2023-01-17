@@ -49,9 +49,9 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
-    bank_card = models.DecimalField(max_digits=16, decimal_places=0)
+    bank_card = models.DecimalField(max_digits=16, decimal_places=0, null=True)
     gender = models.CharField(max_length=10, choices=GENDER)
-    contact = models.DecimalField(max_digits=12, decimal_places=0)
+    contact = models.CharField(max_length=20)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=40, blank=True)
     confirm_code = models.CharField(max_length=6, blank=True)
@@ -61,7 +61,7 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def create_activation_code(self):
         import uuid
