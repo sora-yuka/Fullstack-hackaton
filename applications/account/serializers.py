@@ -38,3 +38,5 @@ class RegisterSerializer(serializers.ModelSerializer):
         code = user.activation_code
         send_confirmation_email.delay(user.email, code)
         return user
+    
+

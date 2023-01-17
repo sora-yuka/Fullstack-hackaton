@@ -24,12 +24,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+<<<<<<< HEAD
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=True)
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
+=======
+SECRET_KEY = config('SECRET_KEY')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=True)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(',')
+>>>>>>> a8cd2a35917657dc197f6981c4cd9f77e1c8ba40
 
 
 # Application definition
@@ -90,9 +99,16 @@ WSGI_APPLICATION = 'jellyfish.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
+<<<<<<< HEAD
     "default": dj_config_url.config(default=config("DATABASE_URL"))
 }
+=======
+    'default': dj_config_url.config(default=config('DATABASE_URL'))
+    }
+
+>>>>>>> a8cd2a35917657dc197f6981c4cd9f77e1c8ba40
 
 
 # Password validation
@@ -136,6 +152,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< HEAD
 AUTH_USER_MODEL = "account.CustomUser"
 
 REST_FRAMEWORK = {
@@ -154,3 +171,15 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 
 BROKER_URL = 'redis://127.0.0.1:6379/0'
 BROKER_TRANSPORT = 'redis'
+=======
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS':{
+        'api_key':{
+            'type':'apiKey',
+            'in':'header',
+            'name': 'Authorization'
+        }
+    }
+}
+>>>>>>> a8cd2a35917657dc197f6981c4cd9f77e1c8ba40
