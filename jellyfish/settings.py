@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'jellyfish.wsgi.application'
 
 DATABASES = {
     'default': dj_config_url.config(default=config('DATABASE_URL'))
-    }
+}
 
 
 

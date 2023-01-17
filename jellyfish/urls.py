@@ -29,5 +29,5 @@ schema_view = get_schema_view(openapi.Info(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('swagger/', schema_view.with_ui('swagger')),
+    path('swagger/', schema_view.with_ui('swagger')),
 ]
