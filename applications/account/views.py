@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model
 
-from applications.account.serializers import (RegisterSerializer
-    # RegisterSerializer, ChangePasswordSerializer, ForgotPasswordSerializer, 
+from applications.account.serializers import (
+    RegisterSerializer, ChangePasswordSerializer, 
+    # ForgotPasswordSerializer, 
     # ForgotPasswordCompleteSerializer
 )
 
@@ -33,3 +34,16 @@ class ActivationAPIView(APIView):
             return Response({"message": "successfully"}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({"message": "Wrong email!"}, status=status.HTTP_400_BAD_REQUEST)
+        
+    
+class ChangePasswordAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        serializer = ChangePasswordSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.set_new_password()
+        return Response("Password updated successfully...")

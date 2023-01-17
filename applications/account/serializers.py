@@ -40,3 +40,33 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(
+        required=True,
+        min_length=6
+    )
+    new_password_confirm = serializers.CharField(
+        required=True,
+        min_length=6
+    )
+
+    def validate(self, attrs):
+        new_password = attrs.get('new_password')
+        new_password_confirm = attrs.get('new_password_confirm')
+        if new_password != new_password_confirm:
+            raise serializers.ValidationError('Password dont match!')
+        return attrs
+
+    def validate_old_password(self, old_password):
+        request = self.context.get('request')
+        user = request.user
+        if not user.check_password(old_password):
+            raise serializers.ValidationError('Wrong password!')
+        return old_password
+
+    def set_new_password(self):
+        user = self.context.get('request').user
+        password = self.validated_data.get('new_password')
+        user.password = make_password(password)
+        user.save()
