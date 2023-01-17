@@ -7,5 +7,5 @@ from applications.account.views import (
 urlpatterns = [
     path("register/", RegisterAPIView.as_view()),
     path("login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("confirm/", ActivationAPIView.as_view()),
+    path("confirm/<uuid:activation_code>/", ActivationAPIView.as_view()),
 ]
