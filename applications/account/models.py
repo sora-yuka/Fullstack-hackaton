@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.password = make_password(password)
-        user.activation_code()
+        user.create_activation_code()
         user.save(using=self._db)
         return user
 
@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_active", False)
         return self._create_user(username, email, password, **extra_fields)
 
-    def create_superuser(self, username, email=None, password=None, **extra_fields):
+    def create_superuser(self, username, email, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
@@ -46,9 +46,9 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=75, unique=True)
+    username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=75)
+    password = models.CharField(max_length=100)
     bank_card = models.DecimalField(max_digits=16, decimal_places=0)
     gender = models.CharField(max_length=10, choices=GENDER)
     contact = models.DecimalField(max_digits=12, decimal_places=0)
@@ -58,7 +58,7 @@ class CustomUser(AbstractUser):
     objects = UserManager()
     
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
         return self.email
