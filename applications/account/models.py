@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 
 
-    
 GENDER = (
     ("Female", "Female"),
     ("Male", "Male"),
