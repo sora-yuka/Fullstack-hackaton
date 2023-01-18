@@ -8,7 +8,9 @@ from rest_framework.viewsets import ModelViewSet
 from applications.feedback.mixins import LikedMixin, RatingMixin
 from rest_framework.decorators import action
 from rest_framework.response import Response
+import logging
 
+logger = logging.getLogger(__name__)
 
 class ProductViewSet(LikedMixin, RatingMixin, ModelViewSet):
     serializer_class = ProductSerializer
