@@ -2,7 +2,8 @@ from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from applications.account.views import (
     RegisterAPIView, ActivationAPIView,
-    ChangePasswordAPIView, ForgotPasswordAPIView
+    ChangePasswordAPIView, ForgotPasswordAPIView,
+    ForgotPasswordConfirmAPIView
 )
 
 urlpatterns = [
@@ -12,5 +13,5 @@ urlpatterns = [
     path("confirm/<uuid:activation_code>/", ActivationAPIView.as_view()),
     path("change_password/", ChangePasswordAPIView.as_view()),
     path("forgot_password/", ForgotPasswordAPIView.as_view()),
-    # path("forgot_password_complete/<uuid:confirm_code>", ),
+    path("forgot_password_complete/", ForgotPasswordConfirmAPIView.as_view()),
 ]
