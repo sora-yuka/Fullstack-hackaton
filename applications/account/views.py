@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
-    # ForgotPasswordSerializer, 
+    ForgotPasswordSerializer, 
     # ForgotPasswordCompleteSerializer
 )
 
@@ -49,8 +49,9 @@ class ChangePasswordAPIView(APIView):
         return Response("Password updated successfully...")
     
     
-class ForgotPassword(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    # def post(self request):
-    #     serializer = ForgotPasswordSerializer()
+class ForgotPasswordAPIView(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.send_code()
+        return Response("We sent code to reset your password")
