@@ -178,6 +178,7 @@ LOGGING = {
             'handlers': ['my_console', 'file']
         },
         'product.views': {
+            'level' : 'DEBUG',
             'handlers': ['for_product']
         }
     }
