@@ -29,7 +29,7 @@ product.log
 *.so
 
 
-images
+
 
 # Distribution / packaging
 .Python
