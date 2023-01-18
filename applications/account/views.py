@@ -47,3 +47,10 @@ class ChangePasswordAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.set_new_password()
         return Response("Password updated successfully...")
+    
+    
+class ForgotPassword(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    # def post(self request):
+    #     serializer = ForgotPasswordSerializer()
