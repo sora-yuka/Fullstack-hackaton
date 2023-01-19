@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
-from applications.feedback.serializers import FavoriteSerializer
-from applications.feedback.permissions import IsFavoriteOwner
-from applications.feedback.models import Favorite
+from applications.feedback.serializers import CommentSerializer, FavoriteSerializer
+from applications.feedback.permissions import IsCommentOwner, IsFavoriteOwner
+from applications.feedback.models import Comment, Favorite
 
 
 class FavoriteViewSet(ModelViewSet):
@@ -17,3 +17,12 @@ class FavoriteViewSet(ModelViewSet):
         queryset = super().get_queryset()
         queryset = queryset.filter(owner=self.request.user.id)
         return queryset
+    
+    
+class CommentViewSet(ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+    permissions_classes = [IsCommentOwner]
+    
+    def perform_create(self, serializer):
+        serializer.save(self.request.user)

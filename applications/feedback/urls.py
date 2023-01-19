@@ -1,9 +1,9 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import include, path
-from applications.feedback.views import CommentAPIView
+from applications.feedback.views import CommentViewSet 
 
 router = DefaultRouter()
-router.register('comment', CommentAPIView)
+router.register('comment', CommentViewSet)
 
 
 urlpatterns = [
