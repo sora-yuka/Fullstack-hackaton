@@ -59,7 +59,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',    
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -132,36 +133,56 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "account.CustomUser"
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 
 
-BROKER_URL = 'redis://127.0.0.1:6379/0'
-BROKER_TRANSPORT = 'redis'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
 
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS':{
-        'api_key':{
-            'type':'apiKey',
-            'in':'header',
-            'name': 'Authorization'
+    'formatters': {
+        'main': {
+            'format': '{levelname} -- {asctime} -- {module} -- {message}',
+            'style' : '{'
+        }
+    },
+
+    'handlers': {
+        'my_console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'main'
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'info.log',
+            'formatter': 'main'
+        },
+        'for_product': {
+            'class': 'logging.FileHandler',
+            'filename': 'product.log',
+            'formatter': 'main'
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['my_console', 'file']
+        },
+        'product.views': {
+            'level' : 'DEBUG',
+            'handlers': ['for_product']
         }
     }
 }
