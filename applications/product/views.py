@@ -5,13 +5,18 @@ from applications.product.models import Product
 from rest_framework.viewsets import ModelViewSet
 from applications.product.serializers import ProductSerializer
 from applications.product.permissions import IsProductOwnerOrReadOnly
-
-
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 from rest_framework.response import Response
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+class LargeResultSetPagination(PageNumberPagination):
+    page_size = 8
+    page_size_query_parm = 'page_size'
+    max_page_size = 10000
 
 
 class ProductViewSet(ModelViewSet):
