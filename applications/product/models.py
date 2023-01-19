@@ -31,7 +31,6 @@ class Like(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
     author = models.CharField(max_length=100)
     descriptions = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
