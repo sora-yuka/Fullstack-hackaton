@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from applications.product.models import Product
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import mixins, GenericViewSet
 from applications.product.serializers import ProductSerializer
 from applications.product.permissions import IsProductOwnerOrReadOnly
 from rest_framework.pagination import PageNumberPagination
@@ -19,7 +19,7 @@ class LargeResultSetPagination(PageNumberPagination):
     max_page_size = 10000
 
 
-class ProductViewSet(ModelViewSet):
+class ProductViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     permission_classes = [IsProductOwnerOrReadOnly]
