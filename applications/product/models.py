@@ -4,9 +4,13 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 CATEGORY_NAME = (
+    ('Thrieler', 'Thrieler'),
+    ('Mystery', 'Mystery'),
     ('Drama', 'Drama'),
     ('Fantasy', 'Fantasy'),
     ('Romance', 'Romance'),
+    ('Anti utopia', 'Anti utopia'),
+    ('Utopia', 'Utopia'),
 )
 
 

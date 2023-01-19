@@ -149,7 +149,32 @@ CORS_ALLOWED_ORIGINS = [
 
 AUTH_USER_MODEL = "account.CustomUser"
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 
+
+BROKER_URL = 'redis://127.0.0.1:6379/0'
+BROKER_TRANSPORT = 'redis'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS':{
+        'api_key':{
+            'type':'apiKey',
+            'in':'header',
+            'name': 'Authorization'
+        }
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 
 LOGGING = {
