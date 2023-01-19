@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from applications.feedback import services
-from applications.feedback.serializsers import FanSerializer, RatingSerializer, Rating
+from applications.feedback.serializers import FanSerializer, RatingSerializer, Rating
 
 
 like_logger = logging.getLogger('LIKE')
