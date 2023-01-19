@@ -10,7 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [
         FileAdmin
     ]
-    list_display = ['name', 'id', 'price']
+    list_display = ['name', 'id', 'price', 'author']
     
 
 admin.site.register(Product, ProductAdmin)
