@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from PIL import Image
 
     
@@ -81,7 +83,8 @@ class CustomUser(AbstractUser):
     
 
 class Profile(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    email = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # avatar = models.ImageField(
     #     default = "avatar.jpg",
     #     upload_to = "profile_avatar"
@@ -89,3 +92,10 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.user
+    
+@receiver(post_save, sender=Profile)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(
+            user = instance
+        )
