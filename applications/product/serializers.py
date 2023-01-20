@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from applications.feedback.models import Comment
+from applications.feedback.serializers import CommentSerializer
 from applications.product.models import Product, Image
 from django.db.models import Avg
 
@@ -13,7 +15,7 @@ class ImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.EmailField(required=False)
     file_image = ImageSerializer(many=True, read_only=True)
-    
+
     
     class Meta:
         model = Product
@@ -30,3 +32,10 @@ class ProductSerializer(serializers.ModelSerializer):
         Image.objects.bulk_create(list_images)
         return product
     
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        comment = Comment.objects.filter(product=instance.id)
+        serializer = CommentSerializer(comment, many=True)
+        comments = serializer.data
+        rep['comment'] = comments
+        return rep

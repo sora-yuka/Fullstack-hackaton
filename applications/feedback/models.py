@@ -6,12 +6,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 User = get_user_model()
 
 
-class Favorite(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="favorites")
+# class Favorite(models.Model):
+#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+#     # product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="favorites")
     
-    def __str__(self):
-        return self.product.title()
+#     def __str__(self):
+#         return self.product.title()
     
 
 class Comment(models.Model):
@@ -21,9 +21,35 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.comment[:10]}...' 
+        return f'{self.owner}: {self.comment[:10]}...' 
+    
+    
+class Rating(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
+    rating = models.SmallIntegerField(
+        validators= [
+        MinValueValidator(1),
+        MaxValueValidator(10)
+        ], blank=True, null= True
+    )
+    
+    def __str__(self) -> str:
+        return str(self.rating)
         
-        
+   
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
         
 # class Rating(models.Model):
 #     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
