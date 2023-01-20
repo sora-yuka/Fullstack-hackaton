@@ -3,7 +3,6 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 
-
     
 GENDER = (
     ("Female", "Female"),
@@ -50,9 +49,10 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
-    bank_card = models.DecimalField(max_digits=16, decimal_places=0, null=True)
+    bank_card = models.DecimalField(max_digits=16, decimal_places=0, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER)
-    contact = models.CharField(max_length=20)
+    # contact = models.CharField(max_length=13)
+    contact = models.DecimalField(max_digits=13, decimal_places=0)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=40, blank=True)
     confirm_code = models.CharField(max_length=6, blank=True)
