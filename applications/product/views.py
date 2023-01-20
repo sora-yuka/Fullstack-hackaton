@@ -24,7 +24,7 @@ class ProductViewSet(ModelViewSet.ListModelMixin, ModelViewSet.GenericViewSet):
     queryset = Product.objects.all()
     permission_classes = [IsProductOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['category']
+    filterset_fields = ['category', 'name']
     search_fields = ['name']
     order_fields = ['price']
     

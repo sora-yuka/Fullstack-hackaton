@@ -202,16 +202,25 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'product.log',
             'formatter': 'main'
+        },
+        'for_account':{
+            'class': 'logging.FileHandler',
+            'filename': 'account.log',
+            'formatter': 'main'
         }
     },
     'loggers': {
         '': {
-            'level': 'DEBUG',
+            'level': 'ERROR',
             'handlers': ['my_console', 'file']
         },
         'product.views': {
-            'level' : 'DEBUG',
+            'level' : 'ERROR',
             'handlers': ['for_product']
+        },
+        'account.views': {
+            'level' : 'ERROR',
+            'handlers': ['for_account']
         }
     }
 }

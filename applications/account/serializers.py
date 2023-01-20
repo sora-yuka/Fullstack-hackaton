@@ -6,6 +6,8 @@ from applications.account.tasks import send_confirmation_email, send_confirmatio
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
+    contact = serializers.CharField(min_length=13)
+    bank_card = serializers.CharField(min_length=16)
     password = serializers.CharField(min_length=6)
     password_confirm = serializers.CharField(
         min_length=6,
@@ -27,10 +29,17 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password = attrs.get('password')
         password_confirm = attrs.pop('password_confirm')
+        contact = attrs.get('contact')
+        bank_card = attrs.get('bank_card')
+        
 
         if password != password_confirm:
             raise serializers.ValidationError('Password dont match!')
 
+        if not contact.startswith('+996'):
+            raise serializers.ValidationError('Invalid contact!')
+        
+        print(contact)
         return attrs
 
     def create(self, validated_data):
