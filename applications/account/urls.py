@@ -3,7 +3,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from applications.account.views import (
     RegisterAPIView, ActivationAPIView,
     ChangePasswordAPIView, ForgotPasswordAPIView,
-    ForgotPasswordConfirmAPIView
+    ForgotPasswordConfirmAPIView,
+    ProfileAPIView
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path("change_password/", ChangePasswordAPIView.as_view()),
     path("forgot_password/", ForgotPasswordAPIView.as_view()),
     path("forgot_password_complete/", ForgotPasswordConfirmAPIView.as_view()),
+    path("profile/", ProfileAPIView.as_view()),
 ]

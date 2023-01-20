@@ -1,13 +1,16 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+from rest_framework.views import APIView, View
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from applications.account.models import Profile
 
 from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
-    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer
+    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
+    ProfileSerializer,
 )
 
 User = get_user_model()
@@ -62,3 +65,8 @@ class ForgotPasswordConfirmAPIView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.set_new_password()
         return Response("Password updated successfully.")
+
+
+class ProfileAPIView(ListAPIView):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
