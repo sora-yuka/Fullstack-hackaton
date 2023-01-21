@@ -1,8 +1,7 @@
-from rest_framework import serializers, response
+from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from applications.account.tasks import send_confirmation_email, send_confirmation_code
-from applications.account.models import Profile
 
 User = get_user_model()
 
@@ -143,9 +142,3 @@ class ForgotPasswordConfirmSerializer(serializers.Serializer):
         user.confirm_code = ""
         user.save()
         
-        
-class ProfileSerializer(serializers.Serializer):
-    
-    class Meta:
-        model = Profile
-        fields = '__all__'
