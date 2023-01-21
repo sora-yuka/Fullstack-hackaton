@@ -33,7 +33,7 @@ class RatingSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Rating
-        fields = ['rating']
+        fields = ['owner', 'rating']
         
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -44,9 +44,6 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
         
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
-        rep['likes'] = instance.likes.filter(like=True).count()
 
 
 

@@ -1,15 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework import status
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from django.utils.datastructures import MultiValueDictKeyError
-from rest_framework.decorators import action
-from applications.feedback.models import Comment
 from applications.feedback.views import FeedbackMixin
 from applications.product.models import Product
 from applications.product.serializers import ProductSerializer
-from applications.product.permissions import IsProductOwnerOrReadOnly
+from applications.product.permissions import IsProductOwnerOrReadOnly, IsCommentOwner
 from rest_framework.viewsets import ModelViewSet
 import logging
 
@@ -30,6 +24,13 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset
+    
+    def get_permissions(self):
+        if self.action == 'delete_comment':
+            print('*************************')
+            return [IsCommentOwner()]
+        else:
+            return super().get_permissions()
     
     
     # def add_comment(self, request, pk=None):

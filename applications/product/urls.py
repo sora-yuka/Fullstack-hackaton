@@ -8,7 +8,7 @@ router.register('', ProductViewSet)
 
 
 urlpatterns = [
-    # path('<int:pk>/rating/',    .as_view(), ),
+    path('<int:pk>/rating/', ProductViewSet.as_view({'post': 'rating'})),
     path('<int:pk>/like/', ProductViewSet.as_view({'post': 'like'})),
     path('<int:pk>/comment/', ProductViewSet.as_view({'post': 'add_comment'})),
     path('comment/<int:pk>/', ProductViewSet.as_view({'delete': 'delete_comment'})),

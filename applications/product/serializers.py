@@ -37,6 +37,7 @@ class ProductSerializer(serializers.ModelSerializer):
         comment = Comment.objects.filter(product=instance.id)
         serializer = CommentSerializer(comment, many=True)
         comments = serializer.data
-        rep['comment'] = comments
         rep['likes'] = instance.likes.filter(like=True).count()
+        rep['rating'] = instance.ratings.all().aggregate(Avg('rating'))['rating__avg']
+        rep['comment'] = comments
         return rep
