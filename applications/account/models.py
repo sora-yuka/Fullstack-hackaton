@@ -84,7 +84,6 @@ class CustomUser(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    email = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     # avatar = models.ImageField(
     #     default = "avatar.jpg",
     #     upload_to = "profile_avatar"
