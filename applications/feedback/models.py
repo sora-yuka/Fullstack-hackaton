@@ -38,8 +38,14 @@ class Rating(models.Model):
         return str(self.rating)
         
    
+   
+class Like(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
+    like = models.BooleanField(default=False)
       
-      
+    def __str__(self) -> str:
+        return str(self.like)
       
       
       

@@ -38,4 +38,5 @@ class ProductSerializer(serializers.ModelSerializer):
         serializer = CommentSerializer(comment, many=True)
         comments = serializer.data
         rep['comment'] = comments
+        rep['likes'] = instance.likes.filter(like=True).count()
         return rep

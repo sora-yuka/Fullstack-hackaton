@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from applications.feedback.models import Comment, Rating
+from applications.feedback.models import Comment, Like, Rating
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -21,8 +21,6 @@ User = get_user_model()
 
 class CommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    # product = serializers.ReadOnlyField(source='product.id')
-    # comment = serializers.CharField(required=True)
     
     class Meta:
         model = Comment
@@ -37,6 +35,18 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ['rating']
         
+
+class LikeSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.usarname')
+    
+    class Meta:
+        model = Like
+        fields = '__all__'
+        
+        
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['likes'] = instance.likes.filter(like=True).count()
 
 
 

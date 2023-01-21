@@ -1,14 +1,14 @@
 # from rest_framework.viewsets import ModelViewSet
-from applications.feedback.models import Comment
+from applications.feedback.models import Comment, Like, Rating
 # from rest_framework.views import APIView
 from applications.feedback.permissions import IsCommentOwner
 # from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
-# from rest_framework.decorators import action
-# from django.utils.datastructures import MultiValueDictKeyError
+from django.shortcuts import get_object_or_404
+from django.utils.datastructures import MultiValueDictKeyError
 
-from applications.feedback.serializers import CommentSerializer
+from applications.feedback.serializers import CommentSerializer, RatingSerializer
 # from applications.product.models import Product
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 
@@ -62,3 +62,48 @@ from rest_framework.generics import CreateAPIView, DestroyAPIView
 #         queryset = Comment.objects.all()
 #         serializer_class = CommentSerializer
 #         permission_classes = [IsCommentOwner]
+
+
+class FeedbackMixin:
+    def add_comment(self, request, pk=None):
+        try:
+            product = self.get_object()
+            comment = request.data['comment']
+            user = request.user
+            comment_obj = Comment.objects.create(owner=user, product=product, comment=comment)
+            comment_obj.save()
+            return Response({'msg': 'comment added'}, status=status.HTTP_201_CREATED)
+        except MultiValueDictKeyError:
+            return Response({'msg': 'field comment is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete_comment(self, request, pk):
+        comment = get_object_or_404(Comment, pk=pk)
+        comment.delete()
+        return Response({'msg': 'comment deleted'}, status=status.HTTP_204_NO_CONTENT) 
+    
+    
+    def like(self, request, pk=None, *args, **kwargs):
+        try:
+            like_obj, _ = Like.objects.get_or_create(owner=request.user, product_id=pk)
+            like_obj.like = not like_obj.like
+            like_obj.save()
+            msg = 'liked'
+            if not like_obj.like:
+                msg = 'unliked'
+            return Response(f'You {msg} it')
+        except:
+            return Response('Something went wrong')
+        
+        
+    # def rating(self, request, pk=None, *args, **kwargs):
+    #     serializer = RatingSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     try:
+    #         rating_obj, _ = Rating.objects.get_or_create(owner=request.user, product_id=pk)
+    #         rating_obj.rating = request.data['rating']
+    #         rating_obj.save()
+    #         msg = request.data['rating']
+    #         return Response(f'You give {msg} points to this book')
+    #     except:
+    #         return Response('Something went wrong')
+       
