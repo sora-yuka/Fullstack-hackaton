@@ -6,14 +6,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 User = get_user_model()
 
 
-# class Favorite(models.Model):
-#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
-#     # product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="favorites")
-    
-#     def __str__(self):
-#         return self.product.title()
-    
-
 class Comment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
@@ -38,7 +30,6 @@ class Rating(models.Model):
         return str(self.rating)
         
    
-   
 class Like(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
@@ -47,6 +38,15 @@ class Like(models.Model):
     def __str__(self) -> str:
         return str(self.like)
       
+
+class Favourite(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favourites')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favourites')
+    favourite = models.BooleanField(default=False)
+    
+    def __str__(self) -> str:
+        return f'{self.owner} - {self.product}'
+    
       
       
       

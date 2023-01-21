@@ -8,6 +8,7 @@ router.register('', ProductViewSet)
 
 
 urlpatterns = [
+    path('<int:pk>/favourite/', ProductViewSet.as_view({'post':'favourite'})),
     path('<int:pk>/rating/', ProductViewSet.as_view({'post': 'rating'})),
     path('<int:pk>/like/', ProductViewSet.as_view({'post': 'like'})),
     path('<int:pk>/comment/', ProductViewSet.as_view({'post': 'add_comment'})),

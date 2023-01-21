@@ -3,7 +3,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from applications.feedback.views import FeedbackMixin
 from applications.product.models import Product
 from applications.product.serializers import ProductSerializer
-from applications.product.permissions import IsProductOwnerOrReadOnly, IsCommentOwner
+from applications.product.permissions import IsProductOwnerOrReadOnly, IsOwner
 from rest_framework.viewsets import ModelViewSet
 import logging
 
@@ -26,9 +26,10 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
         return queryset
     
     def get_permissions(self):
-        if self.action == 'delete_comment':
+        if self.action == self.delete_comment:
             print('*************************')
-            return [IsCommentOwner()]
+            print(self.action)
+            return [IsOwner()]
         else:
             return super().get_permissions()
     

@@ -1,5 +1,5 @@
 # from rest_framework.viewsets import ModelViewSet
-from applications.feedback.models import Comment, Like, Rating
+from applications.feedback.models import Comment, Favourite, Like, Rating
 # from rest_framework.views import APIView
 from applications.feedback.permissions import IsCommentOwner
 # from django.shortcuts import get_object_or_404
@@ -104,6 +104,25 @@ class FeedbackMixin:
             rating_obj.save()
             msg = request.data['rating']
             return Response(f'You give {msg} points to this book')
+        except:
+            return Response('Something went wrong')
+        
+    
+    def favourite(self, request, pk=None, *args, **kwargs):
+        try:
+            fav = []
+            fav_obj, _ = Favourite.objects.get_or_create(owner=request.user, product_id=pk)
+            fav_obj.favourite = not fav_obj.favourite
+            fav.append(fav_obj)
+            fav_obj.save()
+            msg = 'Added to favourites'
+            if not fav_obj.favourite:
+                print(fav_obj)
+                print(fav)
+                fav.remove(fav_obj)
+                fav_obj.delete()
+                msg = 'Deleted from favourites'
+            return Response(msg)
         except:
             return Response('Something went wrong')
        

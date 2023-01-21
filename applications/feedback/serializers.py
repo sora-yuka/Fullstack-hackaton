@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from applications.feedback.models import Comment, Like, Rating
+from applications.feedback.models import Comment, Favourite, Like, Rating
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -42,7 +42,14 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = '__all__'
+     
         
+class FavouriteSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    
+    class Meta:
+        model = Favourite
+        fields = '__all__'
         
 
 
