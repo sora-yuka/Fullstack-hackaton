@@ -13,7 +13,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.owner}: {self.comment[:10]}...' 
+        return f'{self.owner} - {self.comment[:7]}...' 
     
     
 class Rating(models.Model):
@@ -27,7 +27,7 @@ class Rating(models.Model):
     )
     
     def __str__(self) -> str:
-        return str(self.rating)
+        return f'{self.owner} - {str(self.rating)}'
         
    
 class Like(models.Model):
@@ -36,7 +36,7 @@ class Like(models.Model):
     like = models.BooleanField(default=False)
       
     def __str__(self) -> str:
-        return str(self.like)
+        return f'{self.owner} - {str(self.like)}'
       
 
 class Favourite(models.Model):

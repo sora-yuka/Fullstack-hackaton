@@ -1,5 +1,4 @@
 from django.contrib import admin
-from applications.feedback.models import Favourite
 from applications.product.models import Product, Image
 
 class FileAdmin(admin.TabularInline):
@@ -15,4 +14,3 @@ class ProductAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Favourite)
