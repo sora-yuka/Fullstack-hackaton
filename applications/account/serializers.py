@@ -5,6 +5,19 @@ from applications.account.tasks import send_confirmation_email, send_confirmatio
 
 User = get_user_model()
 
+
+class GetDataSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        exclude = [
+            "last_login", "is_superuser", "date_joined",
+            "first_name", "last_name", "is_staff",
+            "activation_code", "confirm_code", "bank_card",
+            "groups", "user_permissions",
+        ]
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     contact = serializers.CharField(min_length=13)
     password = serializers.CharField(min_length=6)
