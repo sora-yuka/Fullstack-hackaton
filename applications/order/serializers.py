@@ -9,7 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Order
-        exclude = ["owner", "activation_code", "is_confirm"]
+        exclude = ["activation_code", "is_confirm"]
              
              
     def create(self, validated_data):

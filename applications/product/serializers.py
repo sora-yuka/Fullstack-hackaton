@@ -19,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ["owner"]
         
     def create(self, validated_data):
         request = self.context.get('request')
