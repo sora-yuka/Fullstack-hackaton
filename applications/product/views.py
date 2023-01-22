@@ -28,8 +28,6 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
     def get_permissions(self):
         print(self.action)
         if self.action == 'delete_comment':
-            print('*************************')
-            print('******************AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA************')
             return [IsFeedbackOwner()]
         return super().get_permissions()
     
