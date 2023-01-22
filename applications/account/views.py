@@ -9,6 +9,7 @@ from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
     ForgotPasswordSerializer, ForgotPasswordConfirmSerializer
 )
+from applications.feedback.views import FeedbackMixin
 
 User = get_user_model()
 
@@ -23,7 +24,7 @@ class RegisterAPIView(APIView):
                         status=status.HTTP_201_CREATED)
         
     
-class ActivationAPIView(APIView):
+class ActivationAPIView(APIView, FeedbackMixin):
     def get(self, request, activation_code):
         try:
             user = User.objects.get(activation_code=activation_code)

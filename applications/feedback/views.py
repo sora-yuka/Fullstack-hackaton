@@ -8,7 +8,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
-from applications.feedback.serializers import CommentSerializer, RatingSerializer
+from applications.feedback.serializers import CommentSerializer, FavouriteSerializer, RatingSerializer
 # from applications.product.models import Product
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 
@@ -125,4 +125,13 @@ class FeedbackMixin:
             return Response(msg)
         except:
             return Response('Something went wrong')
+        
+
+    def get_favourites(self, request, *args, **kwargs):
+        try:
+            electronic = Favourite.objects.filter(owner=request.user, favourite=True)
+            serializer = FavouriteSerializer(electronic, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except TypeError:
+            return []
        
