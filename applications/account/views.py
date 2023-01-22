@@ -3,11 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import get_user_model
-
+from django.contrib.auth import get_user_model 
+from rest_framework.viewsets import generics
 from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
     ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
+    GetDataSerializer
 )
 
 User = get_user_model()
@@ -21,7 +22,12 @@ class RegisterAPIView(APIView):
         return Response("You have successfully registred. "
                         "We sent an activation email",
                         status=status.HTTP_201_CREATED)
-        
+
+    
+class GetDataAPIView(generics.ListAPIView):
+    serializer_class = GetDataSerializer
+    queryset = User.objects.all()
+    
     
 class ActivationAPIView(APIView):
     def get(self, request, activation_code):
