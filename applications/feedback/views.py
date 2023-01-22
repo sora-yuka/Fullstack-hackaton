@@ -1,67 +1,10 @@
-# from rest_framework.viewsets import ModelViewSet
 from applications.feedback.models import Comment, Favourite, Like, Rating
-# from rest_framework.views import APIView
-from applications.feedback.permissions import IsCommentOwner
-# from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
-from applications.feedback.serializers import CommentSerializer, RatingSerializer
-# from applications.product.models import Product
-from rest_framework.generics import CreateAPIView, DestroyAPIView
-
-
-#     serializer_class = CommentSerializer
-#     queryset = Comment.objects.all()
-#     permission_classes = [IsCommentOwner]
-    
-#     def perform_create(self, serializer):
-#         serializer.save(owner = self.request.user)
-        
-
-# class FeedbackMixin:
-    # @action(methods=['POST'], detail=True)
-    # def add_comment(self, request, pk=None):
-    #     try:
-    #         product = self.get_object()
-    #         comment = request.data['comment']
-    #         user = request.user
-    #         comment_obj = Comment.objects.create(owner=user, product=product, comment=comment)
-    #         comment_obj.save()
-    #         return Response({'msg': 'comment added'}, status=status.HTTP_201_CREATED)
-    #     except MultiValueDictKeyError:
-    #         return Response({'msg': 'field comment is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        
-    # @action(methods=['DELETE'], detail=True)
-    # def delete_comment(self, request, pk, com_id):
-    # # try:
-    #     product = self.get_object()
-    #     comment = request.data['comment']
-    #     user = request.user
-    #     comment_obj = Comment.objects.get(owner=user, product=product, pk=id)
-    #     comment_obj.comment = comment
-    #     comment_obj.delete()
-    #     return Response({'msg': 'comment deleted'}, status=status.HTTP_204_NO_CONTENT)    
-    # # except:
-            
-# class FeedbackMixin:        
-#     class CommentCreateApiView(CreateAPIView):
-#         queryset = Comment.objects.all()
-#         serializer_class = CommentSerializer
-#         permission_classes = [IsCommentOwner]
-        
-#         def post(self, request, *args, **kwargs):
-#             instance = self.get_object()
-#             serializer = self.get_serializer(instance)
-#             return Response(serializer.data)
-    
-#     class CommentDestroyApiView(DestroyAPIView):
-#         queryset = Comment.objects.all()
-#         serializer_class = CommentSerializer
-#         permission_classes = [IsCommentOwner]
+from applications.feedback.serializers import FavouriteSerializer, RatingSerializer
 
 
 class FeedbackMixin:
@@ -110,19 +53,23 @@ class FeedbackMixin:
     
     def favourite(self, request, pk=None, *args, **kwargs):
         try:
-            fav = []
             fav_obj, _ = Favourite.objects.get_or_create(owner=request.user, product_id=pk)
             fav_obj.favourite = not fav_obj.favourite
-            fav.append(fav_obj)
             fav_obj.save()
             msg = 'Added to favourites'
             if not fav_obj.favourite:
-                print(fav_obj)
-                print(fav)
-                fav.remove(fav_obj)
                 fav_obj.delete()
                 msg = 'Deleted from favourites'
             return Response(msg)
+        except:
+            return Response('Something went wrong')
+        
+
+    def get_favourites(self, request, *args, **kwargs):
+        try:
+            electronic = Favourite.objects.filter(owner=request.user, favourite=True)
+            serializer = FavouriteSerializer(electronic, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response('Something went wrong')
        
