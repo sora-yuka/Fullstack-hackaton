@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from applications.account.views import (
     RegisterAPIView, ActivationAPIView,
     ChangePasswordAPIView, ForgotPasswordAPIView,
-    ForgotPasswordConfirmAPIView
+    ForgotPasswordConfirmAPIView,
 )
 
 urlpatterns = [

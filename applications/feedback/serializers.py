@@ -5,20 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-# class FavoriteSerializer(serializers.ModelSerializer):
-#     owner = serializers.ReadOnlyField(source="owner.username")
-    
-#     class Meta:
-#         model = Favorite
-#         fields = "__all__"
-        
-
-
-
-
-
-
-
 class CommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     

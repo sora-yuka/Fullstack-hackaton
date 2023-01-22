@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
-    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer
+    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
 )
 from applications.feedback.views import FeedbackMixin
 

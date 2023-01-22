@@ -5,12 +5,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import get_object_or_404
+from rest_framework.viewsets import mixins
 
 from applications.order.models import Order
 from applications.order.serializers import OrderSerializer
 
 
-class OrderViewSet(ModelViewSet):
+class OrderApiView(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsOrderOwner]
@@ -27,7 +28,7 @@ class OrderViewSet(ModelViewSet):
         return queryset
     
     
-class OrderListViewSet(ModelViewSet.ListModelMixin, GenericViewSet):
+class OrderListApiView(mixins.ListModelMixin, GenericViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsOrderOwner]
@@ -40,7 +41,20 @@ class OrderListViewSet(ModelViewSet.ListModelMixin, GenericViewSet):
         return queryset
     
     
-class OrderConfirmAPIView(APIView):
+class OrderListApiView(mixins.ListModelMixin, GenericViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsOrderOwner]
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['id']
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(is_confirm=True)
+        return queryset
+    
+    
+class OrderConfirmApiView(APIView):
     def get(self, request, code):
         order = get_object_or_404(Order, activation_code=code)
         

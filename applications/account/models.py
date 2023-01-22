@@ -3,7 +3,6 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 
-
     
 GENDER = (
     ("Female", "Female"),
@@ -37,6 +36,9 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("bank_card", "1234123412341234")
+        extra_fields.setdefault("gender", "Indefined")
+        extra_fields.setdefault("contact", "+996312312312")
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
@@ -47,19 +49,20 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=100, unique=True)
+    username = models.CharField(max_length=100, unique=False)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
-    bank_card = models.DecimalField(max_digits=16, decimal_places=0, null=True)
+    bank_card = models.CharField(max_length=16, blank=True, null=True)
+    contact = models.CharField(max_length=13)
     gender = models.CharField(max_length=10, choices=GENDER)
-    contact = models.CharField(max_length=20)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=40, blank=True)
     confirm_code = models.CharField(max_length=6, blank=True)
+    
     objects = UserManager()
     
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.username
@@ -73,3 +76,6 @@ class CustomUser(AbstractUser):
         import random
         code = str(random.randint(000000, 999999))
         self.confirm_code = code
+        
+    def __str__(self):
+        return self.user

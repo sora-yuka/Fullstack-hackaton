@@ -1,4 +1,4 @@
-from rest_framework import serializers, response
+from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from applications.account.tasks import send_confirmation_email, send_confirmation_code
@@ -6,6 +6,7 @@ from applications.account.tasks import send_confirmation_email, send_confirmatio
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
+    contact = serializers.CharField(min_length=13)
     password = serializers.CharField(min_length=6)
     password_confirm = serializers.CharField(
         min_length=6,
@@ -27,10 +28,18 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password = attrs.get('password')
         password_confirm = attrs.pop('password_confirm')
+        contact = attrs.get('contact')
+        
 
         if password != password_confirm:
             raise serializers.ValidationError('Password dont match!')
 
+        if not contact.startswith('+996'):
+            raise serializers.ValidationError('Invalid contact, contact must start with +996!')
+        
+        if not contact[1:].isdigit():
+            raise serializers.ValidationError('Invalid contact, phone number must not contain letters!')
+        
         return attrs
 
     def create(self, validated_data):
@@ -132,3 +141,4 @@ class ForgotPasswordConfirmSerializer(serializers.Serializer):
         user.password = make_password(password)
         user.confirm_code = ""
         user.save()
+        

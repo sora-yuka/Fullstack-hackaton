@@ -8,5 +8,4 @@ pillow
 django-filter
 drf-yasg
 celery[redis]
-python-json-logger
 django-cors-headers
