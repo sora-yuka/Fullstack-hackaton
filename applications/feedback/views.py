@@ -1,16 +1,10 @@
-# from rest_framework.viewsets import ModelViewSet
 from applications.feedback.models import Comment, Favourite, Like, Rating
-# from rest_framework.views import APIView
-from applications.feedback.permissions import IsCommentOwner
-# from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 
-from applications.feedback.serializers import CommentSerializer, FavouriteSerializer, RatingSerializer
-# from applications.product.models import Product
-from rest_framework.generics import CreateAPIView, DestroyAPIView
+from applications.feedback.serializers import FavouriteSerializer, RatingSerializer
 
 
 #     serializer_class = CommentSerializer
@@ -110,16 +104,11 @@ class FeedbackMixin:
     
     def favourite(self, request, pk=None, *args, **kwargs):
         try:
-            fav = []
             fav_obj, _ = Favourite.objects.get_or_create(owner=request.user, product_id=pk)
             fav_obj.favourite = not fav_obj.favourite
-            fav.append(fav_obj)
             fav_obj.save()
             msg = 'Added to favourites'
             if not fav_obj.favourite:
-                print(fav_obj)
-                print(fav)
-                fav.remove(fav_obj)
                 fav_obj.delete()
                 msg = 'Deleted from favourites'
             return Response(msg)
@@ -132,6 +121,6 @@ class FeedbackMixin:
             electronic = Favourite.objects.filter(owner=request.user, favourite=True)
             serializer = FavouriteSerializer(electronic, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except TypeError:
-            return []
+        except:
+            return Response('Something went wrong')
        
