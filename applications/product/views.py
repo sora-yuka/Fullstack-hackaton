@@ -33,21 +33,3 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
             return [IsFeedbackOwner()]
         return super().get_permissions()
     
-    
-    # def add_comment(self, request, pk=None):
-    #     try:
-    #         product = self.get_object()
-    #         comment = request.data['comment']
-    #         user = request.user
-    #         comment_obj = Comment.objects.create(owner=user, product=product, comment=comment)
-    #         comment_obj.save()
-    #         return Response({'msg': 'comment added'}, status=status.HTTP_201_CREATED)
-    #     except MultiValueDictKeyError:
-    #         return Response({'msg': 'field comment is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
-    # def delete_comment(self, request, pk):
-    #     comment = get_object_or_404(Comment, pk=pk)
-    #     comment.delete()
-    #     return Response({'msg': 'comment deleted'}, status=status.HTTP_204_NO_CONTENT)    
-    
-    

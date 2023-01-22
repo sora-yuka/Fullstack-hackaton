@@ -54,19 +54,3 @@ class Favourite(models.Model):
       
       
       
-      
-      
-        
-# class Rating(models.Model):
-#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
-#     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
-#     rating = models.SmallIntegerField(
-#         validators=[
-#             MinValueValidator(1),
-#             MaxValueValidator(5)
-#         ],
-#         blank=True, null=True
-#     )
-
-#     def __str__(self):
-#         return f'{self.owner} - {self.rating}'
