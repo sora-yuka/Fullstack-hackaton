@@ -10,6 +10,7 @@ from applications.account.serializers import (
     ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
     GetDataSerializer
 )
+from applications.feedback.views import FeedbackMixin
 
 User = get_user_model()
 
@@ -29,7 +30,7 @@ class GetDataAPIView(generics.ListAPIView):
     queryset = User.objects.all()
     
     
-class ActivationAPIView(APIView):
+class ActivationAPIView(APIView, FeedbackMixin):
     def get(self, request, activation_code):
         try:
             user = User.objects.get(activation_code=activation_code)
