@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class ProductViewSet(ModelViewSet, FeedbackMixin):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    permission_classes = [IsProductOwnerOrReadOnly, IsFeedbackOwner]
+    permission_classes = [IsProductOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category']
     search_fields = ['name']
