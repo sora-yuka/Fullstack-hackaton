@@ -78,4 +78,4 @@ class CustomUser(AbstractUser):
         self.confirm_code = code
         
     def __str__(self):
-        return self.user
+        return str(self.username)
