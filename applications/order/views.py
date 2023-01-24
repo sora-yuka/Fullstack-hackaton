@@ -63,7 +63,7 @@ class OrderConfirmApiView(APIView):
         
         if not order.is_confirm:
             order.is_confirm = True
-            order.status = 'in_processing'
+            order.status = 'In proccess'
             
             order.product.amount -= order.amount
             order.product.save(update_fields=['amount'])
