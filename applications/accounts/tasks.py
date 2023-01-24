@@ -3,7 +3,7 @@ from jellyfish.celery import app
 
 @app.task
 def send_confirmation_email(email, code):
-    full_link = f'http://localhost:8000/api/v1/account/confirm/{code}'
+    full_link = f'http://34.159.20.148:80/api/v1/account/confirm/{code}'
     send_mail(
         'User activation',
         f'Please, click the link to acitvate profile:  {full_link}',

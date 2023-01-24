@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-from applications.account.tasks import send_confirmation_email, send_confirmation_code
+from applications.accounts.tasks import send_confirmation_email, send_confirmation_code
 
 User = get_user_model()
 

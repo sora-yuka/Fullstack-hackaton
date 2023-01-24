@@ -25,12 +25,7 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY_NAME)
     amount = models.PositiveIntegerField()
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    
-    
+    image = models.ImageField(upload_to='image/')
+   
     def __str__(self) -> str:
         return self.name
-    
-
-class Image(models.Model):
-    image = models.ImageField(upload_to='images/')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

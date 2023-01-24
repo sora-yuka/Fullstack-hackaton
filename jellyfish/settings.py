@@ -41,6 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    
+    # all auth paskage 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.telegram',   
     
     # paskage
     'rest_framework',
@@ -50,7 +59,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     
     # applications
-    'applications.account',
+    'applications.accounts',
     'applications.product',
     'applications.order',
     'applications.feedback',
@@ -80,10 +89,43 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '706485792582-o8vhh3qtf7uqglr8dao788htq16pvb37.apps.googleusercontent.com',
+            'secret': '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',
+            'key': '',
+        }
+    },
+    'github': {
+        'APP': {
+            'client_id': '05546adaa6a06ab36ca9',
+            'secret': '9a73ed007963a1065b50da94b3a70da8a0c375c0',
+            'key': '',
+        }
+    },
+    'telegram': {
+        'APP': {
+            'client_id': '1069c52968f66a21cddc',
+            'secret': '044d19234e1c3c868a1356ba9e5425cb23ab4311',
+            'key': '',
+        }
+    },
+    
+}
 
 WSGI_APPLICATION = 'jellyfish.wsgi.application'
 
@@ -148,7 +190,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
-AUTH_USER_MODEL = "account.CustomUser"
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
