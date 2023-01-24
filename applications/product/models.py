@@ -24,7 +24,9 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.CharField(max_length=50, choices=CATEGORY_NAME)
     amount = models.PositiveIntegerField()
-   
+    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    
+    
     def __str__(self) -> str:
         return self.name
     

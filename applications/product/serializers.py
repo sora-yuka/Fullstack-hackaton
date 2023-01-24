@@ -15,12 +15,14 @@ class ImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.EmailField(required=False)
     file_image = ImageSerializer(many=True, read_only=True)
+    discount = serializers.IntegerField(max_value=100)
 
     
     class Meta:
         model = Product
         fields = '__all__'
         
+       
     def create(self, validated_data):
         request = self.context.get('request')
         product = Product.objects.create(**validated_data)
@@ -38,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
         serializer = CommentSerializer(comment, many=True)
         comments = serializer.data
         
+        rep['price'] = float(instance.price) - float(instance.discount/100)*float(instance.price)
         rep['likes'] = instance.likes.filter(like=True).count()
         rep['rating'] = instance.ratings.all().aggregate(Avg('rating'))['rating__avg']
         rep['comment'] = comments
