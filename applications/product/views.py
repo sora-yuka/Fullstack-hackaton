@@ -39,10 +39,9 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
     
     @action(detail=False, methods=['GET'])
     def popular(self, request, *args, **kwargs):
-        products = Product.objects.filter(ratings__gt=6.0)
+        products = Product.objects.filter(ratings__rating__gt=7.0)
         print(products)
         serializer = ProductSerializer(products, many=True)
-        print(serializer)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     @action(detail=True, methods=['GET'])

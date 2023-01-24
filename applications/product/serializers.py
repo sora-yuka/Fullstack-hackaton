@@ -45,3 +45,4 @@ class ProductSerializer(serializers.ModelSerializer):
         rep['rating'] = instance.ratings.all().aggregate(Avg('rating'))['rating__avg']
         rep['comment'] = comments
         return rep
+    
