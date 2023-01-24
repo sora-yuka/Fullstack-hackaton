@@ -1,9 +1,9 @@
-from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from applications.feedback.views import FeedbackMixin
 from applications.product.models import Product
 from applications.product.serializers import ProductSerializer
-from applications.product.permissions import IsProductOwnerOrReadOnly
+from applications.product.permissions import IsProductOwnerOrReadOnly, IsFeedbackOwner
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
@@ -12,17 +12,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
-class LargeResultSetPagination(PageNumberPagination):
-    page_size = 8
-    page_size_query_parm = 'page_size'
-    max_page_size = 10000
-
-
-class ProductViewSet(ModelViewSet.ListModelMixin, ModelViewSet.GenericViewSet):
+class ProductViewSet(ModelViewSet, FeedbackMixin):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    permission_classes = [IsProductOwnerOrReadOnly]
+    permission_classes = [IsProductOwnerOrReadOnly, IsFeedbackOwner]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category', 'name']
     search_fields = ['name']

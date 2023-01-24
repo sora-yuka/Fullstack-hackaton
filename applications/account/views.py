@@ -6,10 +6,14 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 import logging
 
+from django.contrib.auth import get_user_model 
+from rest_framework.viewsets import generics
 from applications.account.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
-    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer
+    ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
+    GetDataSerializer
 )
+from applications.feedback.views import FeedbackMixin
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +28,14 @@ class RegisterAPIView(APIView):
         return Response("You have successfully registred. "
                         "We sent an activation email",
                         status=status.HTTP_201_CREATED)
-        
+
     
-class ActivationAPIView(APIView):
+class GetDataAPIView(generics.ListAPIView):
+    serializer_class = GetDataSerializer
+    queryset = User.objects.all()
+    
+    
+class ActivationAPIView(APIView, FeedbackMixin):
     def get(self, request, activation_code):
         try:
             user = User.objects.get(activation_code=activation_code)
