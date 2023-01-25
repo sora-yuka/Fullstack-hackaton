@@ -1,4 +1,6 @@
-from rest_framework.permissions import BasePermission, SAFE_METHODS, IsAdminUser
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+
+from applications.feedback.models import Comment
 
 
 class IsProductOwnerOrReadOnly(BasePermission):
@@ -13,11 +15,12 @@ class IsProductOwnerOrReadOnly(BasePermission):
     
     
 class IsFeedbackOwner(BasePermission):
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
         if request.method == 'POST':
             return request.user.is_authenticated
-        return request.user.is_authenticated and request.user == obj.owner
-    
+        return request.user.is_authenticated and request.user == Comment.objects.get(id=view.kwargs['pk']).owner
+
+
     

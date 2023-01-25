@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class ProductViewSet(ModelViewSet, FeedbackMixin):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    permission_classes = [IsProductOwnerOrReadOnly]
+    permission_classes = [IsProductOwnerOrReadOnly, IsFeedbackOwner]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category']
     search_fields = ['name']
@@ -26,8 +26,6 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
         return queryset
     
     def get_permissions(self):
-        print(self.action)
         if self.action == 'delete_comment':
             return [IsFeedbackOwner()]
         return super().get_permissions()
-    
