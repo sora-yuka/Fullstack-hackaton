@@ -10,9 +10,16 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 import logging
 
 logger = logging.getLogger(__name__)
+
+class PaginationApiView(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+    page_size_query_param = 'book_pages'
+
 
 class ProductViewSet(ModelViewSet, FeedbackMixin):
     serializer_class = ProductSerializer
