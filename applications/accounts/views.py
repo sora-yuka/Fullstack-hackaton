@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import get_user_model 
 from rest_framework.viewsets import generics
-from applications.account.serializers import (
+from applications.accounts.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
     ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
     GetDataSerializer
