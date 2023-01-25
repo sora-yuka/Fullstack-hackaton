@@ -32,7 +32,6 @@ class ProductViewSet(ModelViewSet, FeedbackMixin):
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-        serializer.save(price=float(self.price)-float(self.discount*100)-float(self.price))
         
     def get_queryset(self):
         queryset = super().get_queryset()
