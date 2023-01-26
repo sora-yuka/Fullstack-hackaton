@@ -72,4 +72,4 @@ class FeedbackMixin:
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response('Something went wrong')
-       
+    

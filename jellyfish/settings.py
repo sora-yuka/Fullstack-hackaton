@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.telegram',   
+    'allauth.socialaccount.providers.telegram',
     
     # paskage
     'rest_framework',
@@ -106,7 +106,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': '706485792582-o8vhh3qtf7uqglr8dao788htq16pvb37.apps.googleusercontent.com',
-            'secret': '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',
+            'secret': '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',
             'key': '',
         }
     },
@@ -117,17 +117,14 @@ SOCIALACCOUNT_PROVIDERS = {
             'key': '',
         }
     },
-    'telegram': {
-        'APP': {
-            'client_id': '1069c52968f66a21cddc',
-            'secret': '044d19234e1c3c868a1356ba9e5425cb23ab4311',
-            'key': '',
-        }
-    },
-    
 }
 
 WSGI_APPLICATION = 'jellyfish.wsgi.application'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
 
 
 # Database

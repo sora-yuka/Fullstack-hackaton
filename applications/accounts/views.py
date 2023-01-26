@@ -8,11 +8,27 @@ from rest_framework.viewsets import generics
 from applications.accounts.serializers import (
     RegisterSerializer, ChangePasswordSerializer, 
     ForgotPasswordSerializer, ForgotPasswordConfirmSerializer,
-    GetDataSerializer
+    ProfileSerializer, ChangeProfileSerializer
 )
 from applications.feedback.views import FeedbackMixin
 
 User = get_user_model()
+
+
+class ProfileAPIView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    
+    
+class ProfileRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class ChangeProfileAPIView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = ChangeProfileSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class RegisterAPIView(APIView):
@@ -23,11 +39,6 @@ class RegisterAPIView(APIView):
         return Response("You have successfully registred. "
                         "We sent an activation email",
                         status=status.HTTP_201_CREATED)
-
-    
-class GetDataAPIView(generics.ListAPIView):
-    serializer_class = GetDataSerializer
-    queryset = User.objects.all()
     
     
 class ActivationAPIView(APIView, FeedbackMixin):

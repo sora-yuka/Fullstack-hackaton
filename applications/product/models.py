@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-# from applications.feedback.models import Comment
-
 User = get_user_model()
 
 CATEGORY_NAME = (

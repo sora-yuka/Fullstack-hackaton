@@ -6,7 +6,7 @@ from applications.accounts.tasks import send_confirmation_email, send_confirmati
 User = get_user_model()
 
 
-class GetDataSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
@@ -15,6 +15,19 @@ class GetDataSerializer(serializers.ModelSerializer):
             "first_name", "last_name", "is_staff",
             "activation_code", "confirm_code", "bank_card",
             "groups", "user_permissions",
+        ]
+        
+
+class ChangeProfileSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        exclude = [
+            "last_login", "is_superuser", "date_joined",
+            "first_name", "last_name", "is_staff",
+            "activation_code", "confirm_code",
+            "groups", "user_permissions", "is_active",
+            "password"
         ]
 
 
