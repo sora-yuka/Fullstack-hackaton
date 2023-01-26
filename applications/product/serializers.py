@@ -11,6 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         exclude = ["owner"]
         
+       
     def create(self, validated_data):
         request = self.context.get('request')
         product = Product.objects.create(**validated_data)
@@ -22,7 +23,9 @@ class ProductSerializer(serializers.ModelSerializer):
         serializer = CommentSerializer(comment, many=True)
         comments = serializer.data
         
+        rep['price'] = float(instance.price) - float(instance.discount/100)*float(instance.price)
         rep['likes'] = instance.likes.filter(like=True).count()
         rep['rating'] = instance.ratings.all().aggregate(Avg('rating'))['rating__avg']
         rep['comment'] = comments
         return rep
+    

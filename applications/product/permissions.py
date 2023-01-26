@@ -20,7 +20,9 @@ class IsFeedbackOwner(BasePermission):
             return True
         if request.method == 'POST':
             return request.user.is_authenticated
-        return request.user.is_authenticated and request.user == Comment.objects.get(id=view.kwargs['pk']).owner
-
+        try:
+            return request.user.is_authenticated and request.user == Comment.objects.get(id=view.kwargs['pk']).owner
+        except:
+            return 'Something went wrong'
 
     

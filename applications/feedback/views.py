@@ -19,11 +19,12 @@ class FeedbackMixin:
         except MultiValueDictKeyError:
             return Response({'msg': 'field comment is required'}, status=status.HTTP_400_BAD_REQUEST)
         
+        
     def delete_comment(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
         comment.delete()
         return Response({'msg': 'comment deleted'}, status=status.HTTP_204_NO_CONTENT) 
-    
+        
     
     def like(self, request, pk=None, *args, **kwargs):
         try:

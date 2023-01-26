@@ -12,6 +12,8 @@ from applications.accounts.serializers import (
 )
 from applications.feedback.views import FeedbackMixin
 
+from drf_yasg.utils import swagger_auto_schema
+
 User = get_user_model()
 
 
@@ -32,6 +34,8 @@ class ChangeProfileAPIView(generics.UpdateAPIView):
 
 
 class RegisterAPIView(APIView):
+
+    @swagger_auto_schema(request_body=RegisterSerializer)
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -41,7 +45,7 @@ class RegisterAPIView(APIView):
                         status=status.HTTP_201_CREATED)
     
     
-class ActivationAPIView(APIView, FeedbackMixin):
+class ActivationAPIView(APIView):
     def get(self, request, activation_code):
         try:
             user = User.objects.get(activation_code=activation_code)
@@ -54,8 +58,9 @@ class ActivationAPIView(APIView, FeedbackMixin):
         
     
 class ChangePasswordAPIView(APIView):
-    permission_classes = [IsAuthenticated]
     
+    permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(request_body=ChangePasswordSerializer)
     def post(self, request):
         serializer = ChangePasswordSerializer(
             data=request.data,
@@ -67,6 +72,7 @@ class ChangePasswordAPIView(APIView):
     
     
 class ForgotPasswordAPIView(APIView):
+    @swagger_auto_schema(request_body=ForgotPasswordSerializer)
     def post(self, request):
         serializer = ForgotPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -75,6 +81,7 @@ class ForgotPasswordAPIView(APIView):
     
 
 class ForgotPasswordConfirmAPIView(APIView):
+    @swagger_auto_schema(request_body=ForgotPasswordConfirmSerializer)
     def post(self, request):
         serializer = ForgotPasswordConfirmSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
