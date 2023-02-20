@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 from decouple import config
+from jellyfish.json_logger import CustomJsonFormatter
 import dj_config_url
 import os
 
@@ -216,46 +217,38 @@ REST_FRAMEWORK = {
     ),
 }
 
-'''
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
 
     'formatters': {
-        'main': {
-            'format': '{levelname} -- {asctime} -- {module} -- {message}',
+        'main_formatters': {
+            'format': '{levelname} -- {asctime} -- {filename} -- {message}',
             'style' : '{'
-        }
+        },
+        'file_json': {
+            '()': CustomJsonFormatter,
+        },
     },
 
     'handlers': {
-        'my_console': {
+        'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'main'
+            'formatter': 'main_formatters'
         },
         'file': {
             'class': 'logging.FileHandler',
+            'formatter': 'file_json',
             'filename': 'info.log',
-            'formatter': 'main'
-        },
-        'for_product': {
-            'class': 'logging.FileHandler',
-            'filename': 'product.log',
-            'formatter': 'main'
         }
     },
     'loggers': {
-        '': {
-            'level': 'DEBUG',
-            'handlers': ['my_console', 'file']
-        },
-        'product.views': {
+        'main': {
+            'handlers': ['console', 'file'],
             'level' : 'DEBUG',
-            'handlers': ['for_product']
         }
     }
 }
-'''
 
 
 SIMPLE_JWT = {

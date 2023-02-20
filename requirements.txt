@@ -10,3 +10,4 @@ drf-yasg
 celery[redis]
 django-cors-headers
 django-allauth
+python-json-logger
